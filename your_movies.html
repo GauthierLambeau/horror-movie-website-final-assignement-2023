@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Favorite Movies</title>
+    <link rel="stylesheet" href="your_movies.css">
+</head>
+<body>
+    <button onclick="goBack()" class="go-back-button">Go Back</button>
+    <img src="images/untitled-1.png" alt="" class="background-image">
+    <h1>Your Favorite Movies</h1>
+
+    <div class="movies-container">
+        <div class="favorites-wrapper" id="favoritesContainer"></div>
+    </div>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+
+        function removeFromFavorites(movieId) {
+            let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+            favorites = favorites.filter((movie) => movie.id !== movieId);
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+            displayFavorites();
+        }
+
+        function displayFavorites() {
+        const favoritesContainer = document.getElementById('favoritesContainer');
+        favoritesContainer.innerHTML = '';
+        let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+
+        favorites.forEach((movie) => {
+            const movieContainer = document.createElement('div');
+            movieContainer.classList.add('movieContainer');
+
+            const movieContent = `
+                <h3>${movie.title}</h3>
+                <p>Language: ${movie.language}</p>
+                <p>Director: ${movie.director}</p>
+                <p>Year: ${movie.year}</p>
+                <img src="${movie.image}" alt="${movie.title}" class="movie-image">
+            `;
+
+            const removeButton = document.createElement('button');
+            removeButton.textContent = 'Remove';
+            removeButton.addEventListener('click', () => {
+                removeFromFavorites(movie.id);
+            });
+
+            movieContainer.innerHTML = movieContent;
+            movieContainer.appendChild(removeButton);
+            favoritesContainer.appendChild(movieContainer);
+
+            const movieImage = movieContainer.querySelector('.movie-image');
+            movieImage.addEventListener('click', () => {
+                window.location.href = `clicked_movie.html?movieId=${movie.id}`;
+            });
+        });
+    }
+
+    displayFavorites();
+    </script>
+</body>
+</html>
+
+
