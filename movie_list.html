@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="movie_list.css">
+  <script src="movie_list.js"></script>
+</head>
+<body>
+  <img src="images/untitled-1.png" alt="" class="background-image">
+
+  <div class="header">
+    <div class="topnav">
+      <a href="your_movies.html">Your movies</a>
+      <button class="home-button" onclick="window.location.href='index.html'">Home</button>
+      <button class="register" onclick="document.getElementById('id01').style.display='block'">register</button>
+      <div class="filter-dropdowns">
+        <select id="languageDropdown"></select>
+        <select id="yearDropdown"></select>
+      </div>
+    </div>
+  </div>
+
+  <div class="movies-container" id="moviesContainer"></div>
+
+  <div id="id01" class="modal">
+                      
+    <form id="registerForm" class="modal-content animate" onsubmit="submitRegisterForm(event)">
+      <div class="imgcontainer">
+        <span style="color:#f1f1f1" onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+        <img src="images/87013392.jpg" alt="Avatar" class="avatar">
+      </div>
+  
+      <div class="container">
+        <label for="uname" style="color:#f1f1f1"><b>Username</b></label>
+        <input type="text" placeholder="Enter Username" name="uname" required>
+  
+        <label for="psw" style="color:#f1f1f1"><b>Password</b></label>
+        <input type="password" placeholder="Enter Password" name="psw" required>
+          
+        <button type="submit">Register</button>
+        <label style="color:#f1f1f1">
+          <input type="checkbox" checked="checked" name="remember"> Remember me
+        </label>
+      </div>
+  
+      <div class="container">
+        <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+        <span class="psw">Forgot <a href="#">password?</a></span>
+      </div>
+    </form>
+  </div>
+
+
+
+</body>
+</html>
