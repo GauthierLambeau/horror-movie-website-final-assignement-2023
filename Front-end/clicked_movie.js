@@ -27,27 +27,14 @@ fetch(`https://65702deb09586eff6640d8c4.mockapi.io/api/v1/movie/${movieId}`)
             const language = document.querySelector('.movie-language');
             language.textContent = `Language: ${movie.language}`;
 
-            // New elements for director and year placed above description
-            const director = document.createElement('p');
+            const director = document.querySelector('.movie-director');
             director.textContent = `Director: ${movie.director}`;
-            director.classList.add('movie-director');
-            movieInfoContainer.appendChild(director);
 
-            const year = document.createElement('p');
+            const year = document.querySelector('.movie-year');
             year.textContent = `Year: ${movie.year}`;
-            year.classList.add('movie-year');
-            movieInfoContainer.appendChild(year);
 
-            // Remove previous description element if exists
-            const existingDescription = document.querySelector('.movie-description');
-            if (existingDescription) {
-                existingDescription.remove();
-            }
-
-            const description = document.createElement('p');
+            const description = document.querySelector('.movie-description');
             description.textContent = `Description: ${movie.description}`;
-            description.classList.add('movie-description');
-            movieInfoContainer.appendChild(description);
         } else {
             movieInfoContainer.innerHTML = 'Movie not found';
         }
@@ -64,11 +51,8 @@ function navigateToRandomMovie() {
     fetch('https://65702deb09586eff6640d8c4.mockapi.io/api/v1/movie')
         .then(response => response.json())
         .then(movies => {
-            // Get a random movie ID
             const randomIndex = Math.floor(Math.random() * movies.length);
             const randomMovieId = movies[randomIndex].id;
-
-            // Redirect to the random movie page
             window.location.href = `clicked_movie.html?movieId=${randomMovieId}`;
         })
 }
@@ -76,22 +60,16 @@ function navigateToRandomMovie() {
 function addToFavorites() {
     const movieId = getUrlParams().movieId;
 
-    // Fetch the movie details using the movieId
     fetch(`https://65702deb09586eff6640d8c4.mockapi.io/api/v1/movie/${movieId}`)
         .then((response) => response.json())
         .then((movie) => {
-            // Get favorites from localStorage or initialize as an empty array
             let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-
-            // Check if the movie already exists in favorites using its ID
             const isAlreadyFavorite = favorites.some((favMovie) => favMovie.id === movieId);
 
-            // If the movie isn't already in favorites, add it
             if (!isAlreadyFavorite) {
                 favorites.push(movie);
                 localStorage.setItem('favorites', JSON.stringify(favorites));
-                // Update the favorites displayed on your_movies.html
-                displayFavorites();
+                showFavoriteMessage();
             } else {
                 alert('This movie is already in your favorites!');
             }
@@ -99,4 +77,12 @@ function addToFavorites() {
         .catch((error) => {
             console.error('Error adding to favorites:', error);
         });
+}
+
+function showFavoriteMessage() {
+    const message = document.getElementById('favoriteMessage');
+    message.classList.add('show');
+    setTimeout(() => {
+        message.classList.remove('show');
+    }, 3000); // Show message for 3 seconds
 }
